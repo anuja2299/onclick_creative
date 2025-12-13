@@ -91,5 +91,10 @@ Make sure you have Node.js installed
 👩‍💻 Author
 Anuja K U
 MTech – Computer Science (Data Science & AI)
-[![Video Title]([https://img.youtube.com/vi/VIDEO_ID/0.jpg](https://youtu.be/GZpAuHVcECk))]([https://www.youtube.com/watch?v=VIDEO_ID](https://youtu.be/GZpAuHVcECk))
+
+## 🎥 Demo Video
+
+Click the image below to watch the demo 👇
+
+[![On-Click Creative Builder Demo](https://img.youtube.com/vi/GZpAuHVcECk/0.jpg)](https://youtu.be/GZpAuHVcECk)
 
