@@ -1,26 +1,64 @@
 require("dotenv").config();
-console.log("Loaded API key:", process.env.REMOVE_BG_KEY);
-
 const express = require("express");
 const cors = require("cors");
-const multer = require("multer");
-const removeBg = require("./removeBg");
+
+const generateHeadlines = require("./generateText");
+const generateVariants = require("./generateVariants");
+const checkCompliance = require("./compliance");
+const removeBgLocal = require("./removeBgLocal");
 
 const app = express();
-app.use(cors()); // <-- important
+app.use(cors());
+app.use(express.json());
 
-const upload = multer();
+// ---------------------------
+// HEALTH CHECK
+// ---------------------------
+app.get("/", (req, res) => {
+  res.send("Backend running");
+});
 
-app.post("/remove-bg", upload.single("image"), async (req, res) => {
+// ---------------------------
+// LOCAL BACKGROUND REMOVAL
+// ---------------------------
+app.post("/remove-bg-local", removeBgLocal);
+
+// ---------------------------
+// AI ROUTES
+// ---------------------------
+app.post("/ai/headlines", async (req, res) => {
   try {
-    const output = await removeBg(req.file.buffer);
-
-    res.set("Content-Type", "image/png");
-    res.send(output);
+    const { productName } = req.body;
+    const headlines = await generateHeadlines(productName);
+    res.json({ headlines });
   } catch (err) {
-    console.error("Error removing background:", err);
-    res.status(500).send("BG removal failed");
+    console.error(err);
+    res.status(500).json({ error: "Headlines failed" });
   }
 });
 
-app.listen(5000, () => console.log("Backend running on port 5000"));
+app.post("/ai/variants", async (req, res) => {
+  try {
+    const result = await generateVariants(req.body);
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Variants failed" });
+  }
+});
+
+app.post("/ai/compliance", async (req, res) => {
+  try {
+    const result = await checkCompliance(req.body.text);
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Compliance failed" });
+  }
+});
+
+// ---------------------------
+const PORT = 4000;
+app.listen(PORT, () =>
+  console.log(`✅ Backend running on port ${PORT}`)
+);

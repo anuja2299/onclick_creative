@@ -3,6 +3,7 @@ import UploadSection from "./components/UploadSection";
 import CanvasPreview from "./components/CanvasPreview";
 import "./App.css";
 
+
 function App() {
   const [productImage, setProductImage] = useState(null);
   const [logoImage, setLogoImage] = useState(null);
@@ -10,6 +11,7 @@ function App() {
   const [templateId, setTemplateId] = useState(0);
   const [logoPosition, setLogoPosition] = useState("top-right");
   const [outputSize, setOutputSize] = useState("square");
+  const canDownload = !!productImage;
 
   return (
     <div className="app-container">
@@ -41,6 +43,7 @@ function App() {
           templateId={templateId}
           logoPosition={logoPosition}
           outputSize={outputSize}
+          canDownload={canDownload}
         />
       </div>
     </div>
