@@ -63,6 +63,7 @@ cd onclick_creative
 
 2️⃣ Start Backend
 cd backend
+NOTE : Create a .env file in your backend folder and copy paste content inside .env.example file by replacing your API Key.
 npm install
 node index.js
 
